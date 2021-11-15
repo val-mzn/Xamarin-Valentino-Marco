@@ -10,7 +10,7 @@ using Xamarin_Valentino_Marco.Views;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class ItemsViewModel : BaseViewModel<Item>
     {
         
         private Item _selectedItem;

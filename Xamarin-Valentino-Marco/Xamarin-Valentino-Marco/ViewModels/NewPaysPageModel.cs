@@ -7,12 +7,11 @@ using Xamarin_Valentino_Marco.Models;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel<Item>
+    public class NewPaysPageModel : BaseViewModel<Pays>
     {
-        private string text;
-        private string description;
+        private string nom;
 
-        public NewItemViewModel()
+        public NewPaysPageModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
@@ -22,20 +21,13 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description);
+            return !String.IsNullOrWhiteSpace(nom);
         }
 
-        public string Text
+        public string Nom
         {
-            get => text;
-            set => SetProperty(ref text, value);
-        }
-
-        public string Description
-        {
-            get => description;
-            set => SetProperty(ref description, value);
+            get => nom;
+            set => SetProperty(ref nom, value);
         }
 
         public Command SaveCommand { get; }
@@ -49,14 +41,13 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Pays pays = new Pays()
             {
                 Id = Guid.NewGuid().ToString(),
-                Text = Text,
-                Description = Description
+                Nom = Nom,
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddItemAsync(pays);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using Xamarin_Valentino_Marco.Models;
+using Xamarin_Valentino_Marco.Services;
 using Xamarin_Valentino_Marco.Views;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
-    public class PaysViewModel : BaseViewModel
+    public class PaysViewModel : BaseViewModel<Pays>
     {
-
+        public IDataStore<Pays> DataPaysStore => DependencyService.Get<IDataStore<Pays>>();
         private Pays _selectedItem;
 
         public ObservableCollection<Pays> PaysList { get; }
@@ -38,7 +39,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
             try
             {
                 PaysList.Clear();
-                var result = await DataPaysStore.GetPayssAsync(true);
+                var result = await DataPaysStore.GetItemsAsync(true);
                 foreach (var p in result)
                 {
                     PaysList.Add(p);
@@ -72,7 +73,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewPaysPage));
         }
 
         async void OnItemSelected(Pays item)

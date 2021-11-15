@@ -7,7 +7,7 @@ using Xamarin_Valentino_Marco.Models;
 namespace Xamarin_Valentino_Marco.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemDetailViewModel : BaseViewModel<Item>
     {
         private string itemId;
         private string text;

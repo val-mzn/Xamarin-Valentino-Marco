@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Xamarin_Valentino_Marco.Models;
 using Xamarin_Valentino_Marco.Views;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel<Item>
     {
         public Command LoginCommand { get; }
 

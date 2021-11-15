@@ -7,6 +7,10 @@
              xmlns:model="clr-namespace:Xamarin_Valentino_Marco.Models"  
              x:Name="BrowseItemsPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddPaysCommand}" />
+    </ContentPage.ToolbarItems>
+    
     <RefreshView x:DataType="local:PaysViewModel" Command="{Binding LoadPaysCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="PaysListView"
                 ItemsSource="{Binding PaysList}"
