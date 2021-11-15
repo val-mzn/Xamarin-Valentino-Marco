@@ -10,38 +10,38 @@ using Xamarin_Valentino_Marco.Views;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class PaysViewModel : BaseViewModel
     {
-        
-        private Item _selectedItem;
 
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        private Pays _selectedItem;
 
-        public ItemsViewModel()
+        public ObservableCollection<Pays> PaysList { get; }
+        public Command LoadPaysCommand { get; }
+        public Command AddPaysCommand { get; }
+        public Command<Pays> PaysTapped { get; }
+
+        public PaysViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            PaysList = new ObservableCollection<Pays>();
+            LoadPaysCommand = new Command(async () => await ExecuteLoadPaysCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            PaysTapped = new Command<Pays>(OnItemSelected);
 
-            AddItemCommand = new Command(OnAddItem);
+            AddPaysCommand = new Command(OnAddItem);
         }
 
-        async Task ExecuteLoadItemsCommand()
+        async Task ExecuteLoadPaysCommand()
         {
             IsBusy = true;
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                PaysList.Clear();
+                var result = await DataPaysStore.GetPayssAsync(true);
+                foreach (var p in result)
                 {
-                    Items.Add(item);
+                    PaysList.Add(p);
                 }
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Pays SelectedItem
         {
             get => _selectedItem;
             set
@@ -75,7 +75,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Pays item)
         {
             if (item == null)
                 return;

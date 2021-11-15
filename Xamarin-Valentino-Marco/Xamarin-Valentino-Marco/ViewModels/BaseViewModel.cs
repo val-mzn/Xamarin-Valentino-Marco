@@ -13,6 +13,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDataPaysStore<Pays> DataPaysStore => DependencyService.Get<IDataPaysStore<Pays>>();
 
         bool isBusy = false;
         public bool IsBusy

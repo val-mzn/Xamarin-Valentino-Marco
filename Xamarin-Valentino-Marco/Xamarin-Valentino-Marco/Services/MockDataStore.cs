@@ -6,9 +6,10 @@ using Xamarin_Valentino_Marco.Models;
 
 namespace Xamarin_Valentino_Marco.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Item>, IDataPaysStore<Pays>
     {
         readonly List<Item> items;
+        readonly List<Pays> pays;
 
         public MockDataStore()
         {
@@ -20,6 +21,14 @@ namespace Xamarin_Valentino_Marco.Services
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
+            };
+
+            pays = new List<Pays>()
+            {
+                 new Pays { Id = Guid.NewGuid().ToString(), Nom = "Espagne" },
+                 new Pays { Id = Guid.NewGuid().ToString(), Nom = "France" },
+                 new Pays { Id = Guid.NewGuid().ToString(), Nom = "Italie" },
+                 new Pays { Id = Guid.NewGuid().ToString(), Nom = "Suisse" }
             };
         }
 
@@ -55,6 +64,48 @@ namespace Xamarin_Valentino_Marco.Services
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
+        }
+
+
+
+
+
+
+
+
+
+        public async Task<bool> AddPaysAsync(Pays p)
+        {
+            pays.Add(p);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdatePaysAsync(Pays p)
+        {
+            var oldItem = pays.Where((Pays arg) => arg.Id == p.Id).FirstOrDefault();
+            pays.Remove(oldItem);
+            pays.Add(p);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeletePaysAsync(string id)
+        {
+            var oldItem = pays.Where((Pays arg) => arg.Id == id).FirstOrDefault();
+            pays.Remove(oldItem);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Pays> GetPaysAsync(string id)
+        {
+            return await Task.FromResult(pays.FirstOrDefault(s => s.Id == id));
+        }
+
+        public async Task<IEnumerable<Pays>> GetPayssAsync(bool forceRefresh = false)
+        {
+            return await Task.FromResult(pays);
         }
     }
 }
