@@ -16,6 +16,7 @@ namespace Xamarin_Valentino_Marco
 
             DependencyService.Register<MockItemDataStore>();
             DependencyService.Register<MockPaysDataStore>();
+            DependencyService.Register<MockVilleDataStore>();
             MainPage = new AppShell();
         }
 

@@ -1,10 +1,41 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin_Valentino_Marco.Views.VillePage">
-    <ContentPage.Content>
-      <StackLayout>
-            <Label Text="Hello Xamarin.Forms!" TextColor="Black" />
-      </StackLayout>
-  </ContentPage.Content>
+             x:Class="Xamarin_Valentino_Marco.Views.VillePage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:Xamarin_Valentino_Marco.ViewModels"  
+             xmlns:model="clr-namespace:Xamarin_Valentino_Marco.Models"  
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddVilleCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:VilleViewModel" Command="{Binding LoadVilleCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="VilleListView"
+                ItemsSource="{Binding VilleList}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="model:Ville">
+                        <Label Text="{Binding Nom}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextColor="Black"/>
+                        <Label Text="{Binding Commentaire}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextColor="Black"/>
+                        <Label Text="{Binding Cp}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextColor="Black"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>
