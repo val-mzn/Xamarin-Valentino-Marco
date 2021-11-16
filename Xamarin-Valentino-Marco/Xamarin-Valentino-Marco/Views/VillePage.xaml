@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_Valentino_Marco.Views.VillePage"
-             Title="{Binding Title}"
+             Title="Liste des Villes"
              xmlns:local="clr-namespace:Xamarin_Valentino_Marco.ViewModels"  
              xmlns:model="clr-namespace:Xamarin_Valentino_Marco.Models"  
              x:Name="BrowseItemsPage">
@@ -17,22 +17,31 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Ville">
+                    <StackLayout Padding="10" x:DataType="model:Ville" BackgroundColor="#f2f3f4">
                         <Label Text="{Binding Nom}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" 
-                            TextColor="Black"/>
-                        <Label Text="{Binding Commentaire}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" 
-                            TextColor="Black"/>
-                        <Label Text="{Binding Cp}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" 
-                            TextColor="Black"/>
+                            FontSize="18" 
+                            TextColor="#2e4053"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Commentaire}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="12" 
+                                TextColor="#808b96"/>
+                            <Label Text="{Binding Cp}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="12" 
+                                TextColor="#808b96"/>
+                        </StackLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:VilleViewModel}}, Path=VilleTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

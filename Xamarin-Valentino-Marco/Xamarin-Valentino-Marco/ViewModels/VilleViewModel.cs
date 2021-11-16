@@ -18,6 +18,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
         public ObservableCollection<Ville> VilleList { get; }
         public Command LoadVilleCommand { get; }
         public Command AddVilleCommand { get; }
+        public Command EditVilleCommand { get; }
         public Command<Ville> VilleTapped { get; }
 
         public VilleViewModel()
@@ -27,8 +28,13 @@ namespace Xamarin_Valentino_Marco.ViewModels
             LoadVilleCommand = new Command(async () => await ExecuteLoadPaysCommand());
 
             VilleTapped = new Command<Ville>(OnItemSelected);
-
+            EditVilleCommand = new Command(EditItem);
             AddVilleCommand = new Command(OnAddItem);
+        }
+
+        public async void EditItem(object obj)
+        {
+            await Shell.Current.GoToAsync(nameof(NewVillePage));
         }
 
         async Task ExecuteLoadPaysCommand()
@@ -81,7 +87,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(VilleDetailPage)}?{nameof(VilleDetailViewModel.VilleId)}={item.Id}");
         }
     }
 }

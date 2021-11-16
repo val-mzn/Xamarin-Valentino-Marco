@@ -76,13 +76,15 @@ namespace Xamarin_Valentino_Marco.ViewModels
             await Shell.Current.GoToAsync(nameof(NewPaysPage));
         }
 
-        async void OnItemSelected(Pays item)
+        async void OnItemSelected(Pays pays)
         {
-            if (item == null)
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if (pays == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            
+            await Shell.Current.GoToAsync($"{nameof(PaysDetailPage)}?{nameof(PaysDetailViewModel.PaysId)}={pays.Id}");
         }
     }
 }

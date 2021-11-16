@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\VilleDetailPage.xaml.cs">
+      <DependentUpon>VilleDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaysDetailPage.xaml.cs">
+      <DependentUpon>PaysDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\NewVillePage.xaml.cs">
       <DependentUpon>NewVillePage.xaml</DependentUpon>
     </Compile>

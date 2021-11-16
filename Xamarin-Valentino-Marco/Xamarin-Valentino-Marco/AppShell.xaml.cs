@@ -12,6 +12,9 @@ namespace Xamarin_Valentino_Marco
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(PaysDetailPage), typeof(PaysDetailPage));
+            Routing.RegisterRoute(nameof(VilleDetailPage), typeof(VilleDetailPage));
+
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(NewPaysPage), typeof(NewPaysPage));
             Routing.RegisterRoute(nameof(NewVillePage), typeof(NewVillePage));

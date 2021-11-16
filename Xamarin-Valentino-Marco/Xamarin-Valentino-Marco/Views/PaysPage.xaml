@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_Valentino_Marco.Views.PaysPage"
-             Title="{Binding Title}"
+             Title="Liste des Pays"
              xmlns:local="clr-namespace:Xamarin_Valentino_Marco.ViewModels"  
              xmlns:model="clr-namespace:Xamarin_Valentino_Marco.Models"  
              x:Name="BrowseItemsPage">
@@ -17,12 +17,19 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Pays">
+                    <StackLayout Padding="10" x:DataType="model:Pays" BackgroundColor="#f2f3f4">
                         <Label Text="{Binding Nom}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
                             FontSize="16" 
-                            TextColor="Black"/>
+                            TextColor="#2e4053"/>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PaysViewModel}}, Path=PaysTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
