@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin_Valentino_Marco.Models;
+using Xamarin_Valentino_Marco.Services;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
@@ -13,13 +15,24 @@ namespace Xamarin_Valentino_Marco.ViewModels
         private string commentaire;
         private string cp;
         private Pays pays;
+        
+        public IDataStore<Pays> PaysData => DependencyService.Get<IDataStore<Pays>>();
+        public ObservableCollection<Pays> Items { get; set; }
 
+       
         public NewVilleViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
+
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
+
+            load();
+        }
+        public async void load()
+        {
+            Items = new ObservableCollection<Pays>(await PaysData.GetItemsAsync());
         }
 
         private bool ValidateSave()
@@ -43,12 +56,6 @@ namespace Xamarin_Valentino_Marco.ViewModels
         {
             get => cp;
             set => SetProperty(ref cp, value);
-        }
-
-        public Pays Pays
-        {
-            get => pays;
-            set => SetProperty(ref pays, value);
         }
 
         public Command SaveCommand { get; }

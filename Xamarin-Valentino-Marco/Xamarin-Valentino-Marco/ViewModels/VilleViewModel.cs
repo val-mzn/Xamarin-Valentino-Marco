@@ -72,7 +72,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewVilleViewModel));
+            await Shell.Current.GoToAsync(nameof(NewVillePage));
         }
 
         async void OnItemSelected(Ville item)
