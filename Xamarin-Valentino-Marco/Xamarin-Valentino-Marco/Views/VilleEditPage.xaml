@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin_Valentino_Marco.Views.VilleEditPage"
+             xmlns:local="clr-namespace:Xamarin_Valentino_Marco.ViewModels"  
+             xmlns:model="clr-namespace:Xamarin_Valentino_Marco.Models"  
+             Title="{Binding Title}">
+
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            <Label Text="Text" FontSize="Medium" TextColor="Black"/>
+            <Entry Text="{Binding Nom, Mode=TwoWay}" FontSize="Medium" TextColor="Black"/>
+            <Label Text="Commentaire" FontSize="Medium" TextColor="Black"/>
+            <Entry Text="{Binding Commentaire, Mode=TwoWay}" FontSize="Medium" TextColor="Black"/>
+            <Label Text="CP" FontSize="Medium" TextColor="Black"/>
+            <Entry Text="{Binding Cp, Mode=TwoWay}" FontSize="Medium" TextColor="Black"/>
+
+            <Label Text="Pays" FontSize="Medium" TextColor="Black"/>
+            <Picker Title="Select an item" ItemsSource="{Binding Items}" 
+                    ItemDisplayBinding="{Binding Nom}"  
+                    SelectedItem="{Binding Pays, Mode=TwoWay}" TextColor="Black"/>
+
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+
+
+
+</ContentPage>

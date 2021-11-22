@@ -18,7 +18,7 @@
         <Label Text="Cp:" FontSize="Medium" TextColor="Black"/>
         <Label Text="{Binding Cp}" FontSize="Small" TextColor="Black"/>
         <Label Text="Pays:" FontSize="Medium" TextColor="Black"/>
-        <Label Text="{Binding Pays}" FontSize="Small" TextColor="Black"/>
+        <Label Text="{Binding VPays.Nom}" FontSize="Small" TextColor="Black"/>
     </StackLayout>
     
 </ContentPage>

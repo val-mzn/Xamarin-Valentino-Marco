@@ -8,17 +8,19 @@ using Xamarin_Valentino_Marco.Views;
 namespace Xamarin_Valentino_Marco.ViewModels
 {
     [QueryProperty(nameof(PaysId), nameof(PaysId))]
-    public class PaysDetailViewModel : BaseViewModel<Pays>
+    public class PaysEditViewModel : BaseViewModel<Pays>
     {
         private string paysId;
         private string nom;
         public string Id { get; set; }
 
-        public Command EditPaysCommand { get; }
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
 
-        public PaysDetailViewModel()
+        public PaysEditViewModel()
         {
-            EditPaysCommand = new Command(Edit);
+            SaveCommand = new Command(OnSave);
+            CancelCommand = new Command(OnCancel);
         }
 
         public string Nom
@@ -54,10 +56,25 @@ namespace Xamarin_Valentino_Marco.ViewModels
             }
         }
 
-        private async void Edit(object obj)
+        private async void OnSave()
         {
-            Debug.WriteLine(paysId);
-            await Shell.Current.GoToAsync($"{nameof(PaysEditPage)}?{nameof(PaysEditViewModel.PaysId)}={paysId}");
+            await DataStore.DeleteItemAsync(PaysId);
+
+            Pays pays = new Pays()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Nom = Nom,
+            };
+
+            await DataStore.AddItemAsync(pays);
+
+            // This will pop the current page off the navigation stack
+            await Shell.Current.GoToAsync("..//..");
+        }
+
+        private async void OnCancel()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

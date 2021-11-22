@@ -58,6 +58,12 @@ namespace Xamarin_Valentino_Marco.ViewModels
             set => SetProperty(ref cp, value);
         }
 
+        public Pays Pays
+        {
+            get => pays;
+            set => SetProperty(ref pays, value);
+        }
+
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
 

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin_Valentino_Marco.Models;
+using Xamarin_Valentino_Marco.Views;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
@@ -13,8 +14,16 @@ namespace Xamarin_Valentino_Marco.ViewModels
         private string nom;
         private string commentaire;
         private string cp;
-        private Ville ville;
+        private Pays pays;
+
         public string Id { get; set; }
+
+        public Command EditVilleCommand { get; }
+
+        public VilleDetailViewModel()
+        {
+            EditVilleCommand = new Command(Edit);
+        }
 
         public string Nom
         {
@@ -32,6 +41,12 @@ namespace Xamarin_Valentino_Marco.ViewModels
         {
             get => cp;
             set => SetProperty(ref cp, value);
+        }
+
+        public Pays VPays
+        {
+            get => pays;
+            set => SetProperty(ref pays, value);
         }
 
         public string VilleId
@@ -56,12 +71,18 @@ namespace Xamarin_Valentino_Marco.ViewModels
                 Nom = item.Nom;
                 Commentaire = item.Commentaire;
                 Cp = item.Cp;
+                VPays = item.Pays;
 
             }
             catch (Exception)
             {
                 Debug.WriteLine("Failed to Load Item");
             }
+        }
+
+        private async void Edit(object obj)
+        {
+            await Shell.Current.GoToAsync($"{nameof(VilleEditPage)}?{nameof(VilleEditViewModel.VilleId)}={villeId}");
         }
     }
 }

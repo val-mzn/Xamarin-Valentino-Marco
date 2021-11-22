@@ -18,7 +18,7 @@
             <Label Text="Pays" FontSize="Medium" />
             <Picker Title="Select an item" ItemsSource="{Binding Items}" 
                     ItemDisplayBinding="{Binding Nom}"  
-                    SelectedItem="{Binding Item, Mode=TwoWay}" />
+                    SelectedItem="{Binding Pays, Mode=TwoWay}" />
 
 
 
