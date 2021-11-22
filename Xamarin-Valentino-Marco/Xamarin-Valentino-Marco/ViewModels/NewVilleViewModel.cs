@@ -6,6 +6,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin_Valentino_Marco.Models;
 using Xamarin_Valentino_Marco.Services;
+using Xamarin.Essentials;
+using System.Linq;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
@@ -24,6 +26,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
+            GetLocation = new Command(btn_clicked);
 
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
@@ -66,6 +69,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
+        public Command GetLocation { get; }
 
         private async void OnCancel()
         {
@@ -88,6 +92,43 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
+        }
+        private async void btn_clicked()
+        {
+            string output = "";
+            try
+            {
+                var location = await Geolocation.GetLocationAsync();
+                Console.WriteLine(location);
+                if (location != null)
+                {
+                    
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                    Console.WriteLine(placemarks);
+                    var placemark = placemarks?.FirstOrDefault();
+                    try
+                    {
+                        if (placemark.CountryName.ToString() != null)
+                        {
+                            //find country + city
+                            output = "country: " + placemark.CountryName.ToString() + "\ncity: " + placemark.Locality.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        //find country only
+                        output = "country: " + placemark.CountryName.ToString() + "\ncity: no city found";
+                    }
+
+                }
+            }
+            catch
+            {
+
+                //find nothing (probably in the sea)
+                output = "country: no country found\ncity: no city found";
+            }
+            Console.WriteLine(output);
         }
     }
 }
