@@ -9,6 +9,7 @@ using Xamarin_Valentino_Marco.Services;
 using Xamarin.Essentials;
 using System.Linq;
 
+
 namespace Xamarin_Valentino_Marco.ViewModels
 {
     public class NewVilleViewModel : BaseViewModel<Ville>
@@ -100,8 +101,10 @@ namespace Xamarin_Valentino_Marco.ViewModels
         }
         private async void btn_clicked()
         {
-            void country(string input)
+            
+            async void country(string input)
             {
+                
                 Console.WriteLine("debug: ");
                 bool found = false;
                 foreach (var item in Items)
@@ -118,8 +121,11 @@ namespace Xamarin_Valentino_Marco.ViewModels
                     Pays pays = new Pays()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        Nom = input
+                        Nom = input,
                     };
+
+                    await PaysData.UpdateItemAsync(pays);
+
                     Items.Add(pays);
                     country(input);
                 }
@@ -157,7 +163,6 @@ namespace Xamarin_Valentino_Marco.ViewModels
                 //find nothing (probably in the sea)
                 await App.Current.MainPage.DisplayAlert("404", "location not found", "OK");
             }
-            country("Ghana");
         }
     }
 }
