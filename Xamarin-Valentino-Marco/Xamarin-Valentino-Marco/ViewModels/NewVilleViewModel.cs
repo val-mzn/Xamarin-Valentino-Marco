@@ -112,6 +112,9 @@ namespace Xamarin_Valentino_Marco.ViewModels
                         {
                             //find country + city
                             output = "country: " + placemark.CountryName.ToString() + "\ncity: " + placemark.Locality.ToString();
+                            Nom = placemark.Locality.ToString();
+                            Cp = placemark.PostalCode.ToString();
+                            Console.WriteLine(placemark.PostalCode.ToString());
                         }
                     }
                     catch
@@ -129,6 +132,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
                 output = "country: no country found\ncity: no city found";
             }
             Console.WriteLine(output);
+           
         }
     }
 }
