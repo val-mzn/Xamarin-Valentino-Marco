@@ -16,6 +16,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
         public string nom;
         private string paysId;
 
+
         public NewPaysPageModel()
         {
             Debug.WriteLine(PaysId);
@@ -42,6 +43,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
         public Command CancelCommand { get; }
         public Command GetLocation { get; }
 
+
         private async void OnCancel()
         {
             // This will pop the current page off the navigation stack
@@ -50,15 +52,27 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private async void OnSave()
         {
-            Pays pays = new Pays()
+            bool found = false;
+            foreach (var item in DataStore.GetItemsAsync().Result)
             {
-                Id = Guid.NewGuid().ToString(),
-                Nom = Nom,
-            };
+                if (item.Nom.ToString() == Nom)
+                {
+                    found = true;
+                }
+            }
+            if (found == false)
+            {
+                Pays pays = new Pays()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Nom = Nom,
+                };
+                
+                await DataStore.UpdateItemAsync(pays);
 
-            await DataStore.UpdateItemAsync(pays);
-
-            // This will pop the current page off the navigation stack
+                // This will pop the current page off the navigation stack
+                
+            }
             await Shell.Current.GoToAsync("..");
         }
 

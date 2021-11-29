@@ -85,31 +85,42 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         private async void OnSave()
         {
-            Ville ville = new Ville()
+            bool found = false;
+            foreach (var item in DataStore.GetItemsAsync().Result)
             {
-                Id = Guid.NewGuid().ToString(),
-                Nom = Nom,
-                Commentaire = commentaire,
-                Cp = cp,
-                Pays = pays,
-            };
+                if (item.Nom.ToString() == Nom)
+                {
+                    found = true;
+                }
+            }
+            if (found == false)
+            {
+                Ville ville = new Ville()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Nom = Nom,
+                    Commentaire = commentaire,
+                    Cp = cp,
+                    Pays = pays,
+                };
 
-            await DataStore.AddItemAsync(ville);
+                await DataStore.AddItemAsync(ville);
 
-            // This will pop the current page off the navigation stack
+                // This will pop the current page off the navigation stack
+
+            }
             await Shell.Current.GoToAsync("..");
+
         }
         private async void btn_clicked()
         {
             
             async void country(string input)
             {
-                
-                Console.WriteLine("debug: ");
+              
                 bool found = false;
                 foreach (var item in Items)
                 {
-                    Console.WriteLine(item.Nom.ToString());
                     if (item.Nom.ToString() == input)
                     {
                         Selected = item;
@@ -125,7 +136,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
                     };
 
                     await PaysData.UpdateItemAsync(pays);
-
+                    
                     Items.Add(pays);
                     country(input);
                 }
