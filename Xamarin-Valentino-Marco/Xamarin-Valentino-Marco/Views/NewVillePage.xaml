@@ -16,9 +16,9 @@
             <Entry x:Name="CpEntry" Text="{Binding Cp, Mode=TwoWay}" FontSize="Medium" />
 
             <Label Text="Pays" FontSize="Medium" />
-            <Picker Title="Select an item" ItemsSource="{Binding Items}" 
-                    ItemDisplayBinding="{Binding Nom}"  
-                    SelectedItem="{Binding Pays, Mode=TwoWay}" />
+            <Picker Title="Select an item" ItemsSource="{Binding Items}"
+                    ItemDisplayBinding="{Binding Nom}"
+                    SelectedItem="{Binding Selected, Mode=TwoWay}"/>
 
 
 

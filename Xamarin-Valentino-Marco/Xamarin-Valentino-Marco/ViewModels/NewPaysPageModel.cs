@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin_Valentino_Marco.Models;
+using Xamarin.Essentials;
+using System.Linq;
 
 namespace Xamarin_Valentino_Marco.ViewModels
 {
@@ -20,6 +22,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
+            GetLocation = new Command(btn_clicked);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
         }
@@ -37,6 +40,7 @@ namespace Xamarin_Valentino_Marco.ViewModels
 
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
+        public Command GetLocation { get; }
 
         private async void OnCancel()
         {
@@ -81,6 +85,38 @@ namespace Xamarin_Valentino_Marco.ViewModels
             catch (Exception)
             {
                 Debug.WriteLine("Failed to Load Item");
+            }
+        }
+        private async void btn_clicked()
+        {
+            try
+            {
+                var location = await Geolocation.GetLocationAsync();
+                if (location != null)
+                {
+
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                    var placemark = placemarks?.FirstOrDefault();
+                    try
+                    {
+                        if (placemark.CountryName.ToString() != null)
+                        {
+                            //find country + city
+                            Nom = placemark.CountryName.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        //find country only
+                        Nom = placemark.CountryName.ToString();
+                    }
+
+                }
+            }
+            catch
+            {
+                //find nothing (probably in the sea)
+                await App.Current.MainPage.DisplayAlert("404", "location not found", "OK");
             }
         }
     }

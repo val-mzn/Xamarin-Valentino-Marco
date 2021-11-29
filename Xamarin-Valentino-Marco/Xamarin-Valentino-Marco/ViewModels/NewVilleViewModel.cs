@@ -66,6 +66,11 @@ namespace Xamarin_Valentino_Marco.ViewModels
             get => pays;
             set => SetProperty(ref pays, value);
         }
+        public Pays Selected
+        {
+            get => pays;
+            set => SetProperty(ref pays, value);
+        }
 
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
@@ -95,44 +100,64 @@ namespace Xamarin_Valentino_Marco.ViewModels
         }
         private async void btn_clicked()
         {
-            string output = "";
+            void country(string input)
+            {
+                Console.WriteLine("debug: ");
+                bool found = false;
+                foreach (var item in Items)
+                {
+                    Console.WriteLine(item.Nom.ToString());
+                    if (item.Nom.ToString() == input)
+                    {
+                        Selected = item;
+                        found = true;
+                    }
+                }
+                if (found == false)
+                {
+                    Pays pays = new Pays()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Nom = input
+                    };
+                    Items.Add(pays);
+                    country(input);
+                }
+
+            }
+
             try
             {
                 var location = await Geolocation.GetLocationAsync();
-                Console.WriteLine(location);
                 if (location != null)
                 {
                     
                     var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
-                    Console.WriteLine(placemarks);
                     var placemark = placemarks?.FirstOrDefault();
                     try
                     {
                         if (placemark.CountryName.ToString() != null)
                         {
                             //find country + city
-                            output = "country: " + placemark.CountryName.ToString() + "\ncity: " + placemark.Locality.ToString();
                             Nom = placemark.Locality.ToString();
                             Cp = placemark.PostalCode.ToString();
-                            Console.WriteLine(placemark.PostalCode.ToString());
+                            country(placemark.CountryName.ToString());
                         }
                     }
                     catch
                     {
                         //find country only
-                        output = "country: " + placemark.CountryName.ToString() + "\ncity: no city found";
+                        country(placemark.CountryName.ToString());
                     }
 
                 }
             }
             catch
             {
-
                 //find nothing (probably in the sea)
-                output = "country: no country found\ncity: no city found";
+                await App.Current.MainPage.DisplayAlert("404", "location not found", "OK");
             }
-            Console.WriteLine(output);
-           
+            country("Ghana");
         }
     }
 }
